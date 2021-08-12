@@ -4,14 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import shop.Jarvis.app.demo.calculator.entity.Item;
 import shop.Jarvis.app.demo.calculator.entity.User;
+import shop.Jarvis.app.demo.calculator.repository.ItemRepository;
 import shop.Jarvis.app.demo.calculator.repository.UserRepository;
 
+import java.util.Date;
 import java.util.List;
 
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner {
 	@Autowired private UserRepository userRepository;
+	@Autowired private ItemRepository itemRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(DemoApplication.class, args);
@@ -19,10 +23,18 @@ public class DemoApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		System.out.println("########## Application START ##########");
 		userRepository.deleteAll();
-		userRepository.save(new User("a", "Alice", "a@a", "1"));
-		userRepository.save(new User("b", "Bob", "b@b", "1"));
-		userRepository.save(new User("c", "Bob", "c@c", "1"));
+		userRepository.save(new User(1, "a", "안주현", "a@a", "1", new Date()));
+		userRepository.save(new User(2,"b", "Bob", "b@b", "1", new Date()));
+		userRepository.save(new User(3, "c", "Bob", "c@c", "1",new Date()));
+
+		System.out.println("########## ITEM START ##########");
+		itemRepository.deleteAll();
+		itemRepository.save(new Item(1, "갤럭시 Z", 200, "신제품 2021", new Date()));
+		itemRepository.save(new Item(2, "노트북", 150, "지문 인식", new Date()));
+		itemRepository.save(new Item(3, "데스크탑", 100, "게이밍", new Date()));
+
 		List<User> users = userRepository.findAll();
 		System.out.println("Print All Users");
 		for (User u : users) {
