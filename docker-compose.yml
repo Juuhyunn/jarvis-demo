@@ -5,25 +5,26 @@ services:
     restart: always
     ports:
       - 8080:8080
+    links:
+      - mongo
     depends_on:
-      - mongodb
+      - mongo
     networks:
       - main-network
 
-  mongodb:
+  mongo:
     image: "mongo:4.4.3"
     container_name: mongo
     hostname: mongo
     networks:
       - main-network
     environment:
-      - MONGO_INITDB_ROOT_USERNAME = root
-      - MONGO_INITDB_ROOT_PASSWORD = root
-      - MONGO_AUTHENTICATION_DATABASE = admin
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     restart: always
     ports:
       - 27017:27017
-    command: ["--bind_ip", "0.0.0.0"]
+    command: [ "--bind_ip", "0.0.0.0" ]
     volumes:
       - mongodata:/data/db
 
@@ -32,4 +33,3 @@ volumes:
 networks:
   main-network:
     driver: bridge
-
